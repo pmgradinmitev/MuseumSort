@@ -1,0 +1,106 @@
+﻿@model PaintingsTableViewModel;
+
+<div class="row">
+    <div class="col-12">
+        <h1>Списък с картини</h1>
+    </div>
+</div>
+<div class="row">
+    <div class="col-12 d-flex justify-content-end">
+        <a asp-controller="Painting" asp-action="Create" class="btn btn-primary">Добави картина</a>
+    </div>
+</div>
+<div class="row">
+    <div class="col-12">
+        <div class="card mt-5 border-primary shadow-sm">
+            <div class="card-header bg-primary bg-gradient text-white d-flex justify-content-between">
+                <div>
+                    <i class="bi bi-list"></i>Картини
+                </div>
+                <div>
+                    @{
+                        if (@Model.RecordsTotal > 0)
+                        {
+                            <div>Показани общо @Model.RecordsTotal записа</div>
+                        }
+                        else if (@Model.RecordsTotal == 0)
+                        {
+                            <div>Няма намерени записи</div>
+                        }
+                    }
+                </div>
+            </div>
+            <div class="card-body p-0">
+                <div class="table-responsive" style="overflow-y: hidden">
+                    <!-- align-middle text-nowrap -->
+                    <table class="table table-bordered table-hover align-middle text-nowrap m-0" style="border-style: hidden;">
+                        <thead class="text-center">
+                            <tr>
+                                <th>#</th>
+                                <th>
+                                    <a asp-action="Index"
+                                       asp-route-SortOrder="@(Model.SortOrder == "name" ? "-name" : "name")">
+
+                                        @Html.DisplayNameFor(model => model.Name)
+                                        @if (Model.SortOrder == "name")
+                                        {
+                                            <i class="bi bi-sort-up"></i>
+                                        }
+                                        @if (Model.SortOrder == "-name")
+                                        {
+                                            <i class="bi bi-sort-down"></i>
+                                        }
+                                    </a>
+                                </th>
+                                <th>
+                                    <a asp-action="Index"
+                                       asp-route-SortOrder="@(Model.SortOrder == "author" ? "-author" : "author")">
+
+                                        @Html.DisplayNameFor(model => model.Author)
+                                        @if (Model.SortOrder == "author")
+                                        {
+                                            <i class="bi bi-sort-up"></i>
+                                        }
+                                        @if (Model.SortOrder == "-author")
+                                        {
+                                            <i class="bi bi-sort-down"></i>
+                                        }
+                                    </a>
+                                </th>
+                                <th style="width: 75px;"></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @{
+                                var count = 1;
+                                foreach (var obj in Model.Data)
+                                {
+                                    var collapseId = $"collapse-{count}";
+
+                                    <tr>
+                                        <td class="text-center">@(count++)</td>
+                                        <td class="text-center">@obj.Name</td>
+                                        <td class="text-center">@obj.Author</td>
+                                        <td class="text-center">
+                                            <div class="d-flex flex-row justify-content-center">
+                                                <a asp-controller="Painting" asp-action="Update" asp-route-id="@(obj.Id)" title="Редактиране">
+                                                    <i class="bi bi-pencil-square"></i>
+                                                </a>
+                                                <form method="post" action="@Url.Action("Delete", "Painting")" onsubmit="return confirm('Наистина ли искате да изтриете тази картина: @obj.Name?');">
+                                                    <input type="hidden" name="Id" value="@(obj.Id)" />
+                                                    <button type="submit" style="border: none; color:#0d6efd; background-color: transparent;" title="Изтриване">
+                                                        <i class="bi-trash"></i>
+                                                    </button>
+                                                </form>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                }
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
