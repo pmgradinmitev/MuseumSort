@@ -41,7 +41,7 @@
                                     <a asp-action="Index"
                                        asp-route-SortOrder="@(Model.SortOrder == "name" ? "-name" : "name")">
 
-                                        @Html.DisplayNameFor(model => model.Name)
+                                        Име
                                         @if (Model.SortOrder == "name")
                                         {
                                             <i class="bi bi-sort-up"></i>
@@ -56,7 +56,7 @@
                                     <a asp-action="Index"
                                        asp-route-SortOrder="@(Model.SortOrder == "author" ? "-author" : "author")">
 
-                                        @Html.DisplayNameFor(model => model.Author)
+                                        Автор
                                         @if (Model.SortOrder == "author")
                                         {
                                             <i class="bi bi-sort-up"></i>
